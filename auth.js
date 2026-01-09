@@ -6,7 +6,7 @@ import {
   signInWithPopup,
   sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // SIGNUP
 const signupForm = document.getElementById("signupForm");
@@ -17,20 +17,16 @@ if (signupForm) {
     const password = signupForm.password.value;
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(cred.user);
 
-      // Send email verification
-      await sendEmailVerification(user);
-      alert("Verification email sent! Check your inbox.");
-
-      // Save user to Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        email: user.email,
-        createdAt: serverTimestamp()
+      await setDoc(doc(db, "users", cred.user.uid), {
+        email,
+        profileCompleted: false
       });
 
-      window.location.href = "index.html"; // Redirect to login after signup
+      alert("Verify your email, then login.");
+      window.location.href = "index.html";
     } catch (err) {
       alert(err.message);
     }
@@ -46,16 +42,19 @@ if (loginForm) {
     const password = loginForm.password.value;
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const cred = await signInWithEmailAndPassword(auth, email, password);
 
-      if (!user.emailVerified) {
-        alert("Please verify your email first!");
-        await auth.signOut();
+      if (!cred.user.emailVerified) {
+        alert("Verify your email first.");
         return;
       }
 
-      window.location.href = "dashboard.html";
+      const snap = await getDoc(doc(db, "users", cred.user.uid));
+      if (!snap.data().profileCompleted) {
+        window.location.href = "profile.html";
+      } else {
+        window.location.href = "dashboard.html";
+      }
     } catch (err) {
       alert(err.message);
     }
@@ -68,17 +67,23 @@ if (googleBtn) {
   googleBtn.addEventListener("click", async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
+      const cred = await signInWithPopup(auth, provider);
 
-      // Save/update Firestore user
-      await setDoc(doc(db, "users", user.uid), {
-        email: user.email,
-        name: user.displayName,
-        createdAt: serverTimestamp()
-      }, { merge: true });
+      const userRef = doc(db, "users", cred.user.uid);
+      const snap = await getDoc(userRef);
 
-      window.location.href = "dashboard.html";
+      if (!snap.exists()) {
+        await setDoc(userRef, {
+          email: cred.user.email,
+          profileCompleted: false
+        });
+      }
+
+      if (!snap.exists() || !snap.data().profileCompleted) {
+        window.location.href = "profile.html";
+      } else {
+        window.location.href = "dashboard.html";
+      }
     } catch (err) {
       alert(err.message);
     }
