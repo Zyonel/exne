@@ -1,19 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
 
-<div class="card">
-  <img id="profilePic" width="80" style="border-radius:50%" />
-  <h2 id="username"></h2>
-  <p id="email"></p>
-  <button id="logoutBtn">Logout</button>
-</div>
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="left">
+      <img id="avatar" class="avatar" />
 
-<script type="module" src="dashboard.js"></script>
-<script type="module" src="logout.js"></script>
+      <!-- LOGO PLACEHOLDER -->
+      <!-- <img src="your-logo.png" class="logo"> -->
+      <div class="logo-placeholder">LOGO</div>
+    </div>
+
+    <button id="logoutBtn" class="logout-btn">Logout</button>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="content" id="content">
+    <h2 id="welcomeText">Welcome</h2>
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="home">🏠<span>Home</span></button>
+    <button class="nav-btn" data-page="transactions">💳<span>Transactions</span></button>
+    <button class="nav-btn" data-page="profile">👤<span>Profile</span></button>
+  </nav>
+
+  <script type="module" src="dashboard.js"></script>
+  <script type="module" src="logout.js"></script>
 </body>
 </html>

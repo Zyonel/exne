@@ -2,6 +2,10 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+const content = document.getElementById("content");
+const avatar = document.getElementById("avatar");
+const welcomeText = document.getElementById("welcomeText");
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "index.html";
@@ -9,13 +13,27 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   const snap = await getDoc(doc(db, "users", user.uid));
-  if (!snap.exists() || !snap.data().profileCompleted) {
-    window.location.href = "profile.html";
-    return;
-  }
+  if (!snap.exists()) return;
 
   const data = snap.data();
-  document.getElementById("username").textContent = data.username;
-  document.getElementById("email").textContent = user.email;
-  document.getElementById("profilePic").src = data.photoURL;
+  avatar.src = data.photoURL;
+  welcomeText.textContent = `Welcome, ${data.username}`;
+});
+
+// Bottom nav logic
+document.querySelectorAll(".nav-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const page = btn.dataset.page;
+
+    if (page === "home") {
+      content.innerHTML = "<h2>Home</h2>";
+    } else if (page === "transactions") {
+      content.innerHTML = "<h2>Transactions</h2>";
+    } else if (page === "profile") {
+      content.innerHTML = "<h2>Profile</h2>";
+    }
+  });
 });
