@@ -1,7 +1,6 @@
-import { auth, db, storage } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const form = document.getElementById("profileForm");
 
@@ -14,19 +13,15 @@ onAuthStateChanged(auth, (user) => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const username = document.getElementById("username").value;
-  const file = document.getElementById("photo").files[0];
+  const username = document.getElementById("username").value.trim();
   const user = auth.currentUser;
 
-  try {
-    const storageRef = ref(storage, `profiles/${user.uid}`);
-    await uploadBytes(storageRef, file);
-    const photoURL = await getDownloadURL(storageRef);
+  const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(username)}&background=6a5af9&color=fff`;
 
-    await setDoc(doc(db, "users", user.uid), {
+  try {
+    await updateDoc(doc(db, "users", user.uid), {
       username,
-      photoURL,
-      email: user.email,
+      photoURL: avatar,
       profileCompleted: true
     });
 
