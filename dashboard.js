@@ -6,30 +6,6 @@ const content = document.getElementById("content");
 const avatar = document.getElementById("avatar");
 const welcomeText = document.getElementById("welcomeText");
 
-// greeting script
-/*
-function getGreeting() {
-    const hour = new Date().getHours();
-
-    if (hour >= 5 && hour < 12) {
-      return "Good morning";
-    } else if (hour >= 12 && hour < 17) {
-      return "Good afternoon";
-    } else if (hour >= 17 && hour < 22) {
-      return "Good evening";
-    } else {
-      return "Good night";
-    }
-  }
-
-  // Example usage
-  document.addEventListener("DOMContentLoaded", () => {
-    const greetingEl = document.getElementById("welcomeText") + data.username;
-    if (greetingEl) {
-      greetingEl.textContent = getGreeting();
-    }
-  });
-*/
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
