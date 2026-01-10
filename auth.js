@@ -21,7 +21,7 @@ if (signupForm) {
       //await sendEmailVerification(cred.user);
 
       await sendEmailVerification(cred.user, {
-  url: "https://exne.onrender.com/index.html",
+  url: "https://exne.onrender.com/verify.html",
   handleCodeInApp: false
 });
 
