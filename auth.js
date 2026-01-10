@@ -27,7 +27,8 @@ if (signupForm) {
 
       await setDoc(doc(db, "users", cred.user.uid), {
         email,
-        profileCompleted: false
+        profileCompleted: false,
+        coins: 0
       });
 
       alert("Verify your email, then login.");
@@ -80,7 +81,8 @@ if (googleBtn) {
       if (!snap.exists()) {
         await setDoc(userRef, {
           email: cred.user.email,
-          profileCompleted: false
+          profileCompleted: false,
+          coins: 0
         });
       }
 
