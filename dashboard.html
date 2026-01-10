@@ -39,11 +39,13 @@
 
   // Example usage
   document.addEventListener("DOMContentLoaded", () => {
-    const greetingEl = `document.getElementById("welcomeText"), ${data.username}`;
+    const greetingEl = document.getElementById("welcomeText");
     if (greetingEl) {
       greetingEl.textContent = getGreeting();
     }
   });
+
+  welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
 </script>
 
 
