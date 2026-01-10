@@ -239,10 +239,4 @@ function startVisit(task) {
   }, 1000);
 }
 
-//coin system
-/*let coins = 0;
 
-function addCoins(amount) {
-  coins += amount;
-  document.getElementById("balanceValue").textContent = coins;
-}*/
