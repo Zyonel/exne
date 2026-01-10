@@ -4,7 +4,7 @@ import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-
 
 const content = document.getElementById("content");
 const avatar = document.getElementById("avatar");
-const welcomeText = document.getElementById("welcomeText");
+//const welcomeText = document.getElementById("welcomeText");
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
