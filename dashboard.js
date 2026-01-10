@@ -17,7 +17,7 @@ onAuthStateChanged(auth, async (user) => {
 
   const data = snap.data();
   avatar.src = data.photoURL;
-  welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
+ // welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
 
 //  welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
 
