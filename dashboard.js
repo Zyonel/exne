@@ -7,6 +7,7 @@ const avatar = document.getElementById("avatar");
 const welcomeText = document.getElementById("welcomeText");
 
 // greeting script
+/*
 function getGreeting() {
     const hour = new Date().getHours();
 
@@ -28,7 +29,7 @@ function getGreeting() {
       greetingEl.textContent = getGreeting();
     }
   });
-
+*/
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -41,7 +42,7 @@ onAuthStateChanged(auth, async (user) => {
 
   const data = snap.data();
   avatar.src = data.photoURL;
-  //welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
+  welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
 
 //  welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
 
