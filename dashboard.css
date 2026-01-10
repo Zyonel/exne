@@ -178,3 +178,27 @@ body {
 .balance-details:hover {
   text-decoration: underline;
 }
+
+/*daily task modal*/
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: #0f1f14;
+  color: #e6ffe6;
+  padding: 25px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+}

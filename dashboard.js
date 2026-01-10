@@ -8,6 +8,30 @@ import {
   increment
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+//Daily tasks logic
+const DAILY_TASKS = [
+  {
+    id: "quiz_1",
+    type: "quiz",
+    title: "Answer today’s quiz",
+    reward: 20,
+    question: "What does HTML stand for?",
+    options: [
+      "Hyper Text Markup Language",
+      "High Transfer Machine Language",
+      "Hyperlinks Text Management Logic"
+    ],
+    correctIndex: 0
+  },
+  {
+    id: "visit_1",
+    type: "visit",
+    title: "Visit a page for 20 seconds",
+    reward: 15,
+    url: "https://example.com",
+    duration: 20
+  }
+];
 
 const content = document.getElementById("content");
 const avatar = document.getElementById("avatar");
@@ -124,10 +148,15 @@ if (action === "rewards") {
   alert("🎁 Daily Reward claimed! +10 Exnex Coins");
 }
 
-if (action === "tasks") {
+/*if (action === "tasks") {
   addCoins(5);
   alert("✅ Task completed! +5 Exnex Coins");
+}*/
+if (action === "tasks") {
+  document.getElementById("taskModal").classList.remove("hidden");
+  renderTasks();
 }
+
 
 if (action === "games") {
   addCoins(3);
@@ -141,3 +170,76 @@ if (action === "watch") {
 
   });
 });
+
+//close daily task modal
+document.getElementById("closeTasks").onclick = () => {
+  document.getElementById("taskModal").classList.add("hidden");
+};
+
+//render task 
+const taskList = document.getElementById("taskList");
+
+function renderTasks() {
+  taskList.innerHTML = "";
+
+  DAILY_TASKS.forEach(task => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <p>${task.title}</p>
+      <button onclick="startTask('${task.id}')">
+        Earn ${task.reward} coins
+      </button>
+    `;
+
+    taskList.appendChild(div);
+  });
+}
+
+//task ctrl
+function startTask(taskId) {
+  const task = DAILY_TASKS.find(t => t.id === taskId);
+  if (!task) return;
+
+  if (task.type === "quiz") startQuiz(task);
+  if (task.type === "visit") startVisit(task);
+}
+
+//quiz task
+function startQuiz(task) {
+  const answer = prompt(
+    task.question + "\n\n" +
+    task.options.map((o, i) => `${i + 1}. ${o}`).join("\n")
+  );
+
+  if (parseInt(answer) - 1 === task.correctIndex) {
+    addCoins(task.reward);
+    alert("Correct! Coins added.");
+  } else {
+    alert("Wrong answer.");
+  }
+}
+
+//link visit
+function startVisit(task) {
+  const win = window.open(task.url, "_blank");
+
+  let time = task.duration;
+  const timer = setInterval(() => {
+    time--;
+    if (time <= 0) {
+      clearInterval(timer);
+      if (win && !win.closed) win.close();
+      addCoins(task.reward);
+      alert("Task completed. Coins added.");
+    }
+  }, 1000);
+}
+
+//coin system
+let coins = 0;
+
+function addCoins(amount) {
+  coins += amount;
+  document.getElementById("balanceValue").textContent = coins;
+}
