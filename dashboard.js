@@ -23,13 +23,14 @@ function getGreeting() {
   }
 
   // Example usage
+  /*
   document.addEventListener("DOMContentLoaded", () => {
     const greetingEl = document.getElementById("welcomeText");
     if (greetingEl) {
       greetingEl.textContent = getGreeting();
     }
   });
-
+*/
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -42,7 +43,13 @@ onAuthStateChanged(auth, async (user) => {
 
   const data = snap.data();
   avatar.src = data.photoURL;
-  welcomeText.textContent = document.getElementById("welcomeText")`, ${data.username}`;
+const greeting = getGreeting();
+welcomeText.textContent = `${greeting}, ${data.username}`;
+
+
+  //welcomeText.textContent = `Welcome, ${data.username}`;
+
+  //welcomeText.textContent = document.getElementById("welcomeText")`, ${data.username}`;
 
 //  welcomeText.textContent = `document.getElementById("welcomeText"), ${data.username}`;
 
