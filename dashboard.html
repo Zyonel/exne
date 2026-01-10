@@ -1,36 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="dashboard.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
 
   <!-- TOP BAR -->
   <header class="top-bar">
-    <div class="left">
+    <div class="top-left">
       <img id="avatar" class="avatar" />
 
       <!-- LOGO PLACEHOLDER -->
-      <!-- <img src="your-logo.png" class="logo"> -->
-      <div class="logo-placeholder">LOGO</div>
+      <!-- <img src="logo.png" class="logo"> -->
+      <span class="logo-placeholder">LOGO</span>
     </div>
 
     <button id="logoutBtn" class="logout-btn">Logout</button>
   </header>
 
+<!-- greeting script-->
+ <script>
+  function getGreeting() {
+    const hour = new Date().getHours();
+
+    if (hour >= 5 && hour < 12) {
+      return "Good morning";
+    } else if (hour >= 12 && hour < 17) {
+      return "Good afternoon";
+    } else if (hour >= 17 && hour < 22) {
+      return "Good evening";
+    } else {
+      return "Good night";
+    }
+  }
+
+  // Example usage
+  document.addEventListener("DOMContentLoaded", () => {
+    const greetingEl = document.getElementById("welcomeText");
+    if (greetingEl) {
+      greetingEl.textContent = getGreeting();
+    }
+  });
+</script>
+
+
   <!-- MAIN CONTENT -->
-  <main class="content" id="content">
+  <main id="content" class="content">
     <h2 id="welcomeText">Welcome</h2>
+
+    <!-- Total Balance -->
+<div class="balance-card">
+  <div class="balance-row">
+    <span class="balance-label">Total Exnex Coins</span>
+    <span id="balanceValue" class="balance-value">0</span>
+  </div>
+
+  <a href="details.html" class="balance-details">Details</a>
+</div>
+
+
+<!-- Activities -->
+    <div class="dashboard-grid">
+
+  <div class="dash-card" data-action="rewards">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
+    </svg>
+    <span>Daily Rewards</span>
+  </div>
+
+  <div class="dash-card" data-action="tasks">
+    <svg viewBox="0 0 24 24">
+      <path d="M9 11l3 3L22 4"/>
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+    </svg>
+    <span>Daily Tasks</span>
+  </div>
+
+  <div class="dash-card" data-action="games">
+    <svg viewBox="0 0 24 24">
+      <path d="M6 12h4M8 10v4"/>
+      <circle cx="15" cy="11" r="1"/>
+      <circle cx="17" cy="13" r="1"/>
+      <rect x="2" y="6" width="20" height="12" rx="3"/>
+    </svg>
+    <span>Mini Games</span>
+  </div>
+
+  <div class="dash-card" data-action="watch">
+    <svg viewBox="0 0 24 24">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+    <span>Watch & Earn</span>
+  </div>
+
+</div>
+
   </main>
 
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
-    <button class="nav-btn active" data-page="home">🏠<span>Home</span></button>
-    <button class="nav-btn" data-page="transactions">💳<span>Transactions</span></button>
-    <button class="nav-btn" data-page="profile">👤<span>Profile</span></button>
+    <button class="nav-btn active" data-page="home">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+      <span>Home</span>
+    </button>
+
+   <!-- <button class="nav-btn" data-page="transactions">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18M6 10h12M9 14h6M4 18h16"/></svg>
+      <span>Transactions</span>
+    -->
+<button class="nav-btn" data-page="transactions">
+  <svg viewBox="0 0 24 24">
+    <path d="M3 3v18h18" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M6 15l4-4 3 3 5-6" fill="none" stroke="currentColor" stroke-width="2"/>
+  </svg>
+  <span>Transactions</span>
+</button>
+
+
+    <button class="nav-btn" data-page="profile">
+      <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5z"/></svg>
+      <span>Profile</span>
+    </button>
   </nav>
 
   <script type="module" src="dashboard.js"></script>

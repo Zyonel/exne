@@ -1,9 +1,10 @@
 :root {
-  --primary: #6a5af9; /* CHANGE THIS to your existing main color */
-  --bg: #0f0f1a;
-  --card: #1a1a2e;
+  --bg: #120417;
+  --card: #2b0d3a;
+  --primary: #00e676;
+  --secondary: #00b35a;
   --text: #ffffff;
-  --muted: #9ca3af;
+  --muted: #9b7cff;
 }
 
 * {
@@ -28,10 +29,10 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 14px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #3f0072;
 }
 
-.left {
+.top-left {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -41,6 +42,7 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
+  border: 2px solid var(--primary);
 }
 
 .logo-placeholder {
@@ -69,12 +71,12 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 70px;
+  height: 75px;
   background: var(--card);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-top: 1px solid #222;
+  border-top: 1px solid #3f0072;
 }
 
 .nav-btn {
@@ -84,14 +86,95 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 12px;
+  gap: 4px;
+  font-size: 11px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.nav-btn span {
-  margin-top: 4px;
+.nav-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
 }
 
 .nav-btn.active {
   color: var(--primary);
+  transform: scale(1.1);
+}
+
+/* Just adding */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.dash-card {
+  background: linear-gradient(135deg, #0b3d2e, #000);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dash-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 255, 128, 0.25);
+}
+
+.dash-card svg {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 10px;
+  fill: none;
+  stroke: #00ff99;
+  stroke-width: 2;
+}
+
+.dash-card span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* balance styles */
+.balance-card {
+  background: linear-gradient(135deg, #000, #0b3d2e);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 255, 153, 0.25);
+}
+
+.balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balance-label {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.balance-value {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.balance-details {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #00ff99;
+  text-decoration: none;
+}
+
+.balance-details:hover {
+  text-decoration: underline;
 }
