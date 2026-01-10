@@ -23,7 +23,7 @@ function getGreeting() {
 
   // Example usage
   document.addEventListener("DOMContentLoaded", () => {
-    const greetingEl = document.getElementById("welcomeText");
+    const greetingEl = document.getElementById("welcomeText") + data.username;
     if (greetingEl) {
       greetingEl.textContent = getGreeting();
     }
