@@ -18,7 +18,12 @@ if (signupForm) {
 
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
-      await sendEmailVerification(cred.user);
+      //await sendEmailVerification(cred.user);
+
+      await sendEmailVerification(cred.user, {
+  url: "https://exne.onrender.com/index.html",
+  handleCodeInApp: false
+});
 
       await setDoc(doc(db, "users", cred.user.uid), {
         email,
