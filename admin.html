@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Exnex Admin — Daily Tasks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Poppins, sans-serif;
+      background: #0b1a12;
+      color: #e8ffe8;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      background: #0f2a1a;
+      padding: 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      font-size: 14px;
+      display: block;
+      margin-top: 12px;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 20px;
+      background: #1db954;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>Create Daily Task</h2>
+
+    <form id="taskForm">
+      <label>Task Type</label>
+      <select id="type">
+        <option value="quiz">Quiz</option>
+        <option value="visit">Link Visit</option>
+      </select>
+
+      <label>Title</label>
+      <input id="title" required />
+
+      <label>Reward (coins)</label>
+      <input id="reward" type="number" required />
+
+      <!-- QUIZ -->
+      <div id="quizFields">
+        <label>Question</label>
+        <textarea id="question"></textarea>
+
+        <label>Options (comma separated)</label>
+        <input id="options" />
+
+        <label>Correct Option Index (0-based)</label>
+        <input id="correctIndex" type="number" />
+      </div>
+
+      <!-- VISIT -->
+      <div id="visitFields" class="hidden">
+        <label>URL</label>
+        <input id="url" />
+
+        <label>Duration (seconds)</label>
+        <input id="duration" type="number" />
+      </div>
+
+      <button type="submit">Publish Task</button>
+    </form>
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
