@@ -1,6 +1,6 @@
 import { auth, db } from "./firebase.js";
 
-import { setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+//import { setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 //import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -8,33 +8,14 @@ import {
   doc,
   getDoc,
   updateDoc,
-  increment
+  increment,
+  collection,
+  query,
+  where,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-//Daily tasks logic
-const DAILY_TASKS = [
-  {
-    id: "quiz_1",
-    type: "quiz",
-    title: "Answer today’s quiz",
-    reward: 20,
-    question: "What does HTML stand for?",
-    options: [
-      "Hyper Text Markup Language",
-      "High Transfer Machine Language",
-      "Hyperlinks Text Management Logic"
-    ],
-    correctIndex: 0
-  },
-  {
-    id: "visit_1",
-    type: "visit",
-    title: "Visit a page for 20 seconds",
-    reward: 15,
-    url: "https://example.com",
-    duration: 20
-  }
-];
+
 
 const content = document.getElementById("content");
 const avatar = document.getElementById("avatar");
@@ -43,6 +24,26 @@ const totalCoinsEl = document.getElementById("balanceValue");
 
 let currentCoins = 0;
 let userRef = null;
+
+//daily tasks
+let DAILY_TASKS = [];
+
+async function loadTasksFromFirestore() {
+  const q = query(
+    collection(db, "dailyTasks"),
+    where("active", "==", true)
+  );
+
+  const snap = await getDocs(q);
+  DAILY_TASKS = [];
+
+  snap.forEach(docSnap => {
+    DAILY_TASKS.push({
+      id: docSnap.id,
+      ...docSnap.data()
+    });
+  });
+}
 
 
 // greeting script
@@ -151,13 +152,12 @@ if (action === "rewards") {
   alert("🎁 Daily Reward claimed! +10 Exnex Coins");
 }
 
-/*if (action === "tasks") {
-  addCoins(5);
-  alert("✅ Task completed! +5 Exnex Coins");
-}*/
 if (action === "tasks") {
   document.getElementById("taskModal").classList.remove("hidden");
-  renderTasks();
+
+  loadTasksFromFirestore().then(() => {
+    renderTasks();
+  });
 }
 
 
@@ -178,6 +178,8 @@ if (action === "watch") {
 document.getElementById("closeTasks").onclick = () => {
   document.getElementById("taskModal").classList.add("hidden");
 };
+
+
 
 //render task 
 const taskList = document.getElementById("taskList");
@@ -200,7 +202,8 @@ function renderTasks() {
 }
 
 //task ctrl
-function startTask(taskId) {
+//function startTask(taskId) {
+window.startTask = function (taskId) {
   const task = DAILY_TASKS.find(t => t.id === taskId);
   if (!task) return;
 
@@ -208,8 +211,7 @@ function startTask(taskId) {
   if (task.type === "visit") startVisit(task);
 }
 
-//quiz task
-function startQuiz(task) {
+window.startQuiz = function (task) {
   const answer = prompt(
     task.question + "\n\n" +
     task.options.map((o, i) => `${i + 1}. ${o}`).join("\n")
@@ -221,10 +223,9 @@ function startQuiz(task) {
   } else {
     alert("Wrong answer.");
   }
-}
+};
 
-//link visit
-function startVisit(task) {
+window.startVisit = function (task) {
   const win = window.open(task.url, "_blank");
 
   let time = task.duration;
@@ -237,6 +238,4 @@ function startVisit(task) {
       alert("Task completed. Coins added.");
     }
   }, 1000);
-}
-
-
+};

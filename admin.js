@@ -57,7 +57,11 @@ form.addEventListener("submit", async (e) => {
 
   if (type === "quiz") {
     taskData.question = document.getElementById("question").value;
-    taskData.options = document.getElementById("options").value.split(",");
+   taskData.options = document
+  .getElementById("options")
+  .value.split(",")
+  .map(o => o.trim());
+
     taskData.correctIndex = Number(document.getElementById("correctIndex").value);
   }
 
